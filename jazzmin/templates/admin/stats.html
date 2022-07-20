@@ -1,10 +1,56 @@
+{% load i18n static jazzmin admin_urls %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+{% get_jazzmin_settings request as jazzmin_settings %}
+{% get_jazzmin_ui_tweaks as jazzmin_ui %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!--  Prevent admin panel being crawled by search engines -->
+    <meta name="robots" content="none, noarchive">
+
+    <title>{% block title %}{{ title }} | {{ jazzmin_settings.site_title }}{% endblock %}</title>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="{% static "vendor/fontawesome-free/css/all.min.css" %}">
+
+    <!-- Bootstrap and adminLTE -->
+    <link rel="stylesheet" href="{% static "vendor/adminlte/css/adminlte.min.css" %}" id="adminlte-css">
+
+    <!-- Bootswatch theme -->
+    {% if jazzmin_ui.theme.name != 'default' %}
+        <link rel="stylesheet" href="{{ jazzmin_ui.theme.src }}" id="jazzmin-theme" />
+    {% endif %}
+
+    {% if jazzmin_ui.dark_mode_theme %}
+        <link rel="stylesheet" href="{{ jazzmin_ui.dark_mode_theme.src }}" id="jazzmin-dark-mode-theme" media="(prefers-color-scheme: dark)"/>
+    {% endif %}
+
+    <!-- Custom fixes for django -->
+    <link rel="stylesheet" href="{% static "jazzmin/css/main.css" %}">
+
+    {% if jazzmin_settings.custom_css %}
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static jazzmin_settings.custom_css %}">
+    {% endif %}
+
+    <!-- favicons -->
+    <link rel="shortcut icon" href="{% static jazzmin_settings.site_icon %}" type="image/png">
+    <link rel="icon" href="{% static jazzmin_settings.site_icon %}" sizes="32x32" type="image/png">
+
+    {% if jazzmin_settings.use_google_fonts_cdn %}
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    {% endif %}
+
+    {% block extrastyle %} {% endblock %}
+    {% block extrahead %} {% endblock %}
 </head>
-<body>
+<body class="hold-transition{% if not jazzmin_settings.show_sidebar %} no-sidebar{% else %} sidebar-mini{% endif %} {% sidebar_status request %} {% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %} {{ jazzmin_ui.body_classes }} {% if jazzmin_ui.dark_mode_theme %}theme-dark{% endif %}" data-admin-utc-offset="{% now "Z" %}">
 
 </body>
 </html>

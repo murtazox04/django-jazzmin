@@ -210,12 +210,12 @@
                             <li class="nav-item">
                                 <a href="{% url 'admin:index' %}" class="nav-link">
                                     <i class="nav-icon fas fa-th-large"></i>
-                                    <p>{% trans 'Бошқарув панели' %}</p>
+                                    <p>{% trans 'Dashboard' %}</p>
                                 </a>
-{#                                <a href="{% url 'admin:stats' %}" class="nav-link">#}
-{#                                    <i class="nav-icon fas fa-th-large"></i>#}
-{#                                    <p>{% trans 'Статистика' %}</p>#}
-{#                                </a>#}
+                                <a href="{% url 'api:stats' %}" class="nav-link">
+                                    <i class="nav-icon fas fa-th-large"></i>
+                                    <p>{% trans 'Statistics' %}</p>
+                                </a>
                             </li>
 
                             {% if jazzmin_settings.navigation_expanded %}
